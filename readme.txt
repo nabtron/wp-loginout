@@ -21,7 +21,7 @@ The admin panel provides options to:
 1. select theme location for menu you want to extend
 2. code before and after the button link (&lt;li&gt; and &lt;/li&gt; usually)
 
-Please let us know if you encounter any bug or want features added to this plugin here on forums or at : <a href="https://nabtron.com/wp-loginout/">Nabtron</a>
+Please let us know if you encounter any bug or want features added to this plugin here on forums or at : https://nabtron.com/wp-loginout/
 
 == Installation ==
 
