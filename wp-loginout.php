@@ -1,22 +1,22 @@
 <?php
 /**
  * @package WP-LogInOut
- * @version 0.1.1
+ * @version 0.1.5
  */
 /*
 Plugin Name: WP LogInOut
 Plugin URI: http://wordpress.org/plugins/wp-loginout/
-Description: Add login / out buttons in selected menu automatically and dynamically depending upon users login status.
+Description: Goto: Appearance > WP LoginOut. Add login / out buttons in selected menu automatically depending upon users login status.
 Author: Nabtron
-Tested up to: 4.5
-Version: 0.1.1
-Author URI: http://nabtron.com/
+Tested up to: 5.8.1
+Version: 0.1.5
+Author URI: https://nabtron.com/
 */
 
-//add subment item to themes menu in admin panel for WP Login / logout
+//add submenu item to themes menu in admin panel for WP LoginOut
 add_action('admin_menu', 'wp_loginout_menu');
 function wp_loginout_menu() {
-	add_theme_page('WP LogInOut', 'WP Login / Logout', 'edit_theme_options', 'wp_loginout_options', 'wp_loginout_options');
+	add_theme_page('WP LogInOut', 'WP LoginOut', 'edit_theme_options', 'wp_loginout_options', 'wp_loginout_options');
 }
 
 function wp_loginout_options(){
@@ -61,11 +61,11 @@ function wp_loginout_options(){
 				</li>
 				<li><label class="nab_ll_class" for="nab_ll_before">Code Before link:</label>
 					<input type="text" id="nab_ll_before" name="nab_ll_before" value="<?php echo stripslashes($nab_ll_before); ?>" size="20">
-          <span class="description">&lt;li class="someclass"&gt;</span>
+          <span class="description">e.g. &lt;li class="someclass"&gt;</span>
 				</li>
 				<li><label class="nab_ll_class" for="nab_ll_after">Code After link :</label>
 					<input type="text" id="nab_ll_after" name="nab_ll_after" value="<?php echo stripslashes($nab_ll_after); ?>" size="20">
-          <span class="description">&lt;/li&gt;</span>
+          <span class="description">e.g &lt;/li&gt;</span>
 				</li>
         </ul>
         <hr />
@@ -104,7 +104,6 @@ function your_custom_menu_item ( $items, $args ) {
 add_filter( get_nab_menu_location_function(),'wpsites_loginout_menu_link' );
 
 function wpsites_loginout_menu_link( $menu ) {
-	echo $nab_menu_location_function;
     $loginout = stripslashes(htmlspecialchars_decode(get_option('nab_ll_before'))) . wp_loginout($_SERVER['REQUEST_URI'], false ) . stripslashes(htmlspecialchars_decode(get_option('nab_ll_after')));
     $menu .= $loginout;
     return $menu;
@@ -114,4 +113,12 @@ function wpsites_loginout_menu_link( $menu ) {
 function wp_loginout_get_all_menus(){
     return get_terms( 'nav_menu', array( 'hide_empty' => true ) ); 
 }
-?>
+
+// add settings link
+add_filter('plugin_action_links_'.plugin_basename(__FILE__), 'wploginout_add_plugin_page_settings_link');
+function wploginout_add_plugin_page_settings_link( $links ) {
+	$links[] = '<a href="' .
+		admin_url( 'themes.php?page=wp_loginout_options' ) .
+		'">' . __('Settings') . '</a>';
+	return $links;
+}
